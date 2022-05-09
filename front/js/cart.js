@@ -1,15 +1,17 @@
+// stockage du panier dans une variable 
 const produitLocalStorage = service.getPanier();
 
 const positionEmptyCart = document.querySelector("#cart__items");
 
 
 function getCart() {
+    //Affichage si le panier est vide 
     if (!produitLocalStorage || !produitLocalStorage.length) {
         const emptyCart = `<p>Votre panier est vide</p>`;
         positionEmptyCart.innerHTML = emptyCart;
         return;
     }
-
+    //Affichage des produits 
     produitLocalStorage.map(produit => {
         const productArticle = document.createElement("article");
         document.querySelector("#cart__items").appendChild(productArticle);
@@ -78,6 +80,7 @@ function getCart() {
         productQuantity.setAttribute("max", "100");
         productQuantity.setAttribute("name", "itemQuantity");
 
+        //Modification de la quantité 
         productQuantity.addEventListener('change', evnt => {
             const quantity = evnt.target.value;
             const product = {...produit, quantity };
@@ -86,6 +89,7 @@ function getCart() {
             location.reload();
         });
 
+        //Suppression du produit
         const productItemContentSettingsDelete = document.createElement("div");
         productItemContentSettings.appendChild(productItemContentSettingsDelete);
         productItemContentSettingsDelete.className = "cart__item__content__settings__delete";
@@ -105,6 +109,7 @@ function getCart() {
 }
 getCart();
 
+//Fonction pour le calcul du total des produits
 function getTotals() {
 
 
@@ -133,6 +138,7 @@ function getTotals() {
 }
 getTotals();
 
+//Fonction pour la valisation du fotmulaire de contact et la récupération des données dans le localstorage 
 async function submit() {
     var formValues = Array.from(document.querySelectorAll('form input')).map(el => ({
         [el.name]: el.value

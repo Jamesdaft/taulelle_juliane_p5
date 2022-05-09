@@ -1,9 +1,14 @@
-//
 const start = async() => {
+
+    //Appel de l'API des produits
+
     async function fetchProducts() {
         const call = await fetch("https://api-kanap-eu.herokuapp.com/api/products");
         return call.json();
     }
+
+    //Création des articles 
+
 
     const products = await fetchProducts();
     const items = document.getElementById("items");

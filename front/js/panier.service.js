@@ -1,4 +1,6 @@
+// Service pour la gestion du panier 
 var service = {
+
     getPanier: () => {
         return localStorage.getItem('panier') ? JSON.parse(localStorage.getItem('panier')) : [];
     },
