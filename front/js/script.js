@@ -1,3 +1,4 @@
+//
 const start = async() => {
     async function fetchProducts() {
         const call = await fetch("https://api-kanap-eu.herokuapp.com/api/products");

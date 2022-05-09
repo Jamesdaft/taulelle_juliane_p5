@@ -1,4 +1,3 @@
-// local storage
 const produitLocalStorage = service.getPanier();
 
 const positionEmptyCart = document.querySelector("#cart__items");
@@ -133,3 +132,47 @@ function getTotals() {
     console.log(totalPrice);
 }
 getTotals();
+
+async function submit() {
+    var formValues = Array.from(document.querySelectorAll('form input')).map(el => ({
+        [el.name]: el.value
+    }));
+
+    const contact = Object.assign({}, ...formValues);
+    const value = {
+        contact,
+        products: service.getPanier(),
+    };
+
+    const firstNameHasError = !contact.firstName.trim();
+    const lastNameHasError = !contact.lastName.trim();
+    const addressHasError = !contact.address.trim();
+    const cityHasError = !contact.city.trim();
+    const emailHasError = !contact.email.trim();
+    document.querySelector('#firstNameErrorMsg').innerHTML = firstNameHasError ? "Le champs est obligatoire" : "";
+    document.querySelector('#lastNameErrorMsg').innerHTML = lastNameHasError ? "Le champs est obligatoire" : "";
+    document.querySelector('#addressErrorMsg').innerHTML = addressHasError ? "Le champs est obligatoire" : "";
+    document.querySelector('#cityErrorMsg').innerHTML = cityHasError ? "Le champs est obligatoire" : "";
+    document.querySelector('#emailErrorMsg').innerHTML = emailHasError ? "Le champs est obligatoire" : "";
+
+    if (firstNameHasError || lastNameHasError || addressHasError || cityHasError || emailHasError) {
+        return;
+    }
+    const rawResponse = await fetch('http://localhost:3000/api/products/order', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(value)
+    });
+    const status = rawResponse.status;
+    if (status === 201) {
+        localStorage.setItem('commande', JSON.stringify(await rawResponse.json()));
+        service.clear();
+        document.location.href = '../html/confirmation.html';
+    }
+}
+document.querySelector('#order').addEventListener('click', () => {
+    submit();
+})

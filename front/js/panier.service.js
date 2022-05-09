@@ -40,7 +40,11 @@ var service = {
         });
         localStorage.setItem('panier', JSON.stringify(items));
         return items;
-    }
+    },
+
+    clear: () => {
+        localStorage.setItem('panier', JSON.stringify([]));
+    },
 
 }
 
