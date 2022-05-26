@@ -13,13 +13,13 @@ const start = async() => {
     const addToPanier = (product) => {
         const color = document.querySelector('#colors').value;
         const quantity = Number(document.querySelector('#quantity').value);
-        if (!quantity) {
-            alert("Merci d'indiquer la quantité souhaitée");
+        if (0 > quantity || !quantity) {
+            alert("Merci d'indiquer une quantité valide");
             return;
         }
 
         const item = {
-            ...product,
+            productId,
             color,
             quantity,
         };
